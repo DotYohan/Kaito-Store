@@ -4,7 +4,7 @@
  */
 package frenzstore;
 
-import java.util.Scanner;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -21,96 +21,153 @@ public class FrenzStore {
 
         while (main == true) {
 
-            System.out.println("Welcome to Kaito Store!");
-            Scanner enter = new Scanner(System.in);
-            System.out.println("Do you want to go shop?");
-            String trap = enter.next();
+            String trap = JOptionPane.showInputDialog("Welcome to Kaito Store! \n Do you want to go shop?");
             String code;
             boolean check = false;
+            if (trap.equalsIgnoreCase("no")) {
+                break;
+            }
+
+
             double totalcost = 0.00;
+            String[] product = {"[1]    25k Carrat Gold Necklace 10 Grams", "[2]    25k Carat White Gold Ring With Diamond 16 Grams", "[3]    Methamphetamine Hydro-Chloride 1 Gram", "[4]    Cannabis Sativa", "[5]   Coke"};
+            double[] prices = {45887.6, 73420.16, 1390.00, 500.00, 20.00};
             String rer = "";
-            while (trap.equalsIgnoreCase("yes")) {  
+            double discount;
+            while (trap.equalsIgnoreCase("yes")) {
 
-                System.out.println("Please select Product \n input number to Product Code \n Item \t \t \t \t \t \t \t Cost \t \t Code: \n 25k Carrat Gold Necklace 10 Grams \t \t \t PHP 45887.6 \t 1  \n 25k Carat White Gold Ring With Diamond 16 Grams "
-                        + "\t PHP 73420.16 \t 2 \n Methamphetamine Hydro-Chloride 1 Gram \t \t PHP 1390.00 \t 3 \n Cannabis Sativa \t \t \t \t \t PHP 500 \t 4 \n Coke \t \t \t \t \t \t \t PHP 20 \t 5");
+                String sel = JOptionPane.showInputDialog("Please select Product "
+                        + "\n input number to Product Code "
+                        + "\n Item                    Cost              Code"
+                        + "\n Shabu                PHP 45887.6        1"
+                        + "\n Marijuana           PHP 73420.16     2"
+                        + "\n Lambing              PHP 1390.00      3"
+                        + "\n Friend Zoned     PHP 500             4"
+                        + "\n F.R.I.E.N.D.S      PHP 20               5");
 
-                int select = enter.nextInt();
+                int select = Integer.parseInt(sel);
                 double price = 0;
                 String productName = "";
-                
 
                 switch (select) {
                     case 1:
-                        price = 45887.6;
-                        productName = "25k Carat Gold Necklace (10g)";
-                       
+                        price = prices[0];
+                        productName = product[0];
+
                         check = true;
                         break;
                     case 2:
-                        price = 73420.16;
-                        productName = "25k Carat White Gold Ring (16g)";
-                       
+                        price = prices[1];
+                        productName = product[1];
+
                         check = true;
                         break;
                     case 3:
-                        price = 1390.00;
-                        productName = "Methamphetamine Hydro-Chloride (1g)";
+                        price = prices[2];
+                        productName = product[2];
                         check = true;
                         break;
                     case 4:
-                        price = 500.00;
-                        productName = "Cannabis Sativa";
-                       
+                        price = prices[3];
+                        productName = product[3];
+
                         check = true;
                         break;
                     case 5:
-                        price = 20.00;
-                        productName = "Coke";
-       
+                        price = prices[4];
+                        productName = product[4];
+
                         check = true;
                         break;
                 }
                 if (check == true) {
-                    System.out.println("You selected " + productName + " for PHP " + price + "\nEnter quantity:");
-                    double quantity = enter.nextDouble();
+                    String quant = JOptionPane.showInputDialog("You selected " + productName + " for PHP " + price + "\nEnter quantity:");
+                    int quantity = Integer.parseInt(quant);
                     double subtotal = price * quantity;
-                    totalcost +=  subtotal;
-                    rer += productName + "\t" +quantity + "\t" + price + "\n";
-                    System.out.println("Subtotal: " + quantity + " * " + price + " = PHP " + subtotal);
+                    totalcost += subtotal;
+                    rer += productName + "\t" + quantity + "\t" + price + "\n";
+                    JOptionPane.showMessageDialog(null, "Subtotal: " + quantity + " * " + price + " = PHP " + subtotal);
                     // Ask if user wants to order another item
-                    System.out.println("Do you want to order another item? (yes/no)");
-                    trap = enter.next(); // update `trap` for the loop condition
+                    trap = JOptionPane.showInputDialog("Do you want to order another item? (yes/no)");
 
                 }
                 if (trap.equalsIgnoreCase("no")) {
-                    System.out.println("You selected \n" + rer);
-                    System.out.println("Total: PHP " + totalcost);
-                    System.out.println("DO you have a voucher? Please input in the system. Otherwise, input no");
-                    code = enter.next();
+                    code = JOptionPane.showInputDialog("You selected \n" + rer + "\nTotal: PHP " + totalcost + "\nDO you have a voucher? Please input in the system. Otherwise, input no");
+
                     if (code.equalsIgnoreCase("SirJamieUnoLang")) {
-                        double discount = (totalcost * (-0.15));
-                    totalcost = totalcost + discount ;
-                    System.out.println("You selected \n" + rer);
-                    System.out.println("Discount " + (discount*-1) + "\nTotal: PHP " + totalcost);
-                    } else {}
-                // Ask user to enter the payment amount
-                double payment = 0;
-                do {
-                    System.out.println("Please enter the amount of money to pay: ");
-                    payment = enter.nextDouble();
-
-                    // Check if payment is sufficient
-                    if (payment < totalcost) {
-                        System.out.println("Insufficient funds. You need at least PHP " + (totalcost - payment) + " more.");
-                    } else {
-                        double change = payment - totalcost;
-                        System.out.println("Payment accepted. Your change is PHP " + change + "\nThank you for Shopping With Us!");
+                        discount = (totalcost * (-0.99));
+                        totalcost = totalcost + discount;
+                        JOptionPane.showMessageDialog(null,"You selected \n" + rer);
+                        JOptionPane.showMessageDialog(null,"Discount " + (discount * -1) + "\nTotal: PHP " + totalcost);
                     }
-                } while (payment < totalcost);
-                System.out.println("-------------------------------------------------");
-            }
+                    if (code.equalsIgnoreCase("Special")) {
+                        discount = (totalcost * (-0.12));
+                        totalcost = totalcost + discount;
+                        JOptionPane.showMessageDialog(null,"You selected \n" + rer);
+                        JOptionPane.showMessageDialog(null,"Discount " + (discount * -1) + "\nTotal: PHP " + totalcost);
+                    }
+                    if (code.equalsIgnoreCase("10%Offnow")) {
+                        discount = (totalcost * (-0.1));
+                        totalcost = totalcost + discount;
+                        JOptionPane.showMessageDialog(null,"You selected \n" + rer);
+                        JOptionPane.showMessageDialog(null,"Discount " + (discount * -1) + "\nTotal: PHP " + totalcost);
+                    }
+                    if (code.equalsIgnoreCase("Done 50%")) {
+                        discount = (totalcost * (-0.50));
+                        totalcost = totalcost + discount;
+                        JOptionPane.showMessageDialog(null,"You selected \n" + rer);
+                        JOptionPane.showMessageDialog(null,"Discount " + (discount * -1) + "\nTotal: PHP " + totalcost);
+                    }
 
+                    switch (code) {
+                        case "178562":
+                            JOptionPane.showInputDialog("90% dicount code");
+                            discount = (totalcost * (-0.90));
+                            totalcost = totalcost + discount;
+                            JOptionPane.showMessageDialog(null,"You selected \n" + rer);
+                            JOptionPane.showMessageDialog(null,"Discount " + (discount * -1) + "\nTotal: PHP " + totalcost);
+                            break;
+                        case "08042005":
+                            JOptionPane.showInputDialog("90% dicount code");
+                            discount = (totalcost * (-0.90));
+                            totalcost = totalcost + discount;
+                            JOptionPane.showMessageDialog(null,"You selected \n" + rer);
+                            JOptionPane.showMessageDialog(null,"Discount " + (discount * -1) + "\nTotal: PHP " + totalcost);
+                            break;
+                        case "897456":
+                            JOptionPane.showInputDialog("90% dicount code");
+                            discount = (totalcost * (-0.90));
+                            totalcost = totalcost + discount;
+                            JOptionPane.showMessageDialog(null, "You selected \n" + rer);
+                            JOptionPane.showMessageDialog(null,"Discount " + (discount * -1) + "\nTotal: PHP " + totalcost);
+                            break;
+                    }
+                    // Ask user to enter the payment amount
+                    double payment = 0;
+                    int nil = 0;
+                    for (int i = 0; i < 3; i++) {
+                        String pay = JOptionPane.showInputDialog("Please enter the amount of money to pay: ");
+                        payment = Double.parseDouble(pay);
+
+                        // Check if payment is sufficient
+                        if (payment < totalcost) {
+                            JOptionPane.showMessageDialog(null, "Insufficient funds. you need atleast" + totalcost + -payment);
+                            nil += 1;
+
+                        } else {
+                            double change = payment - totalcost;
+                     
+       JOptionPane.showMessageDialog(null, "Payment accepted. Your change is PHP " + change + "\n Products: \n" + rer + "\nThank you for Shopping With Us!");
+                            break;
+                        }
+
+                    }if (nil == 3){
+                            JOptionPane.showMessageDialog(null, "Sorry the Order has been void due to many failure attemps! Please re-order if you wish to reproccess");
+                        }
+                    main = true;
+
+                }
+            }
         }
     }
-}
 }
